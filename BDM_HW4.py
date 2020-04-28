@@ -85,7 +85,7 @@ def processTrips(pid, records):
             if (pickup_zone,dropoff_zone):
                 counts[(pickup_zone,dropoff_zone)] = counts.get((pickup_zone,dropoff_zone), 0) + 1
         
-        except(IndexError):
+        except(ValueError,IndexError):
             pass
         
     return counts.items()
