@@ -73,17 +73,21 @@ def processTrips(pid, records):
     counts = {}
     
     for row in reader:   
-        pickup_point = geom.Point(proj(float(row[5]), float(row[6])))
-        dropoff_point = geom.Point(proj(float(row[9]), float(row[10])))
+        try:
+            pickup_point = geom.Point(proj(float(row[5]), float(row[6])))
+            dropoff_point = geom.Point(proj(float(row[9]), float(row[10])))
 
-        # Look up a matching zone, and update the count accordly if
-        # such a match is found
-        pickup_zone = findPickupZone(pickup_point, index, zones)
-        dropoff_zone = findDropoffZone(dropoff_point, index, zones)
+            # Look up a matching zone, and update the count accordly if
+            # such a match is found
+            pickup_zone = findPickupZone(pickup_point, index, zones)
+            dropoff_zone = findDropoffZone(dropoff_point, index, zones)
 
-        if (pickup_zone,dropoff_zone):
-            counts[(pickup_zone,dropoff_zone)] = counts.get((pickup_zone,dropoff_zone), 0) + 1
-       
+            if (pickup_zone,dropoff_zone):
+                counts[(pickup_zone,dropoff_zone)] = counts.get((pickup_zone,dropoff_zone), 0) + 1
+        
+        except(IndexError):
+            pass
+        
     return counts.items()
 
 if __name__=='__main__':
