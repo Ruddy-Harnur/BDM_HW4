@@ -95,21 +95,6 @@ def processTrips(pid, records):
        
     return counts.items()
 
-
-def extract(pid, rows):
-    if pid==0:
-        next(rows)
-    reader = csv.reader(rows)
-    for record in reader:
-        if len(record)==18:
-            yield ((record[0][:4], record[1].lower(), record[7].lower()),1)
-
-def toCSV(_, records):
-    for (year,product),(total,companies,top_percent) in records:
-        if ',' in product:
-            product = '"{}"'.format(product)
-        yield ','.join((product,year,str(total),str(companies),str(top_percent)))
-
 if __name__=='__main__':
     sc = SparkContext()
     sc.textFile(sys.argv[2]) \
