@@ -98,5 +98,4 @@ if __name__=='__main__':
         .groupByKey().mapValues(list) \
         .map(lambda x: (x[0],x[1][0:3])) \
         .sortByKey() \
-        .mapPartitionsWithIndex(toCSV) \
         .saveAsTextFile(sys.argv[2])
