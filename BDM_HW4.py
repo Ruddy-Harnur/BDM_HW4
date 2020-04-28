@@ -63,13 +63,6 @@ def findDropoffZone(p, index, zones):
     
     
 def processTrips(pid, records):
-    '''
-    Our aggregation function that iterates through records in each
-    partition, checking whether we could find a zone that contain
-    the pickup location.
-    '''
-    
-    # Create an R-tree index
     proj = pyproj.Proj(init="epsg:2263", preserve_units=True)    
     index, zones = createIndex('neighborhoods.geojson')    
     
@@ -79,8 +72,7 @@ def processTrips(pid, records):
     reader = csv.reader(records)
     counts = {}
     
-    for row in reader:
-           
+    for row in reader:   
         pickup_point = geom.Point(proj(float(row[5]), float(row[6])))
         dropoff_point = geom.Point(proj(float(row[9]), float(row[10])))
 
