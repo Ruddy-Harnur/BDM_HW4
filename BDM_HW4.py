@@ -6,6 +6,8 @@ import fiona.crs
 import shapely
 import rtree
 import geopandas as gpd
+import pyproj
+import shapely.geometry as geom
 
 
 # This is to load the shape file
@@ -66,9 +68,6 @@ def processTrips(pid, records):
     partition, checking whether we could find a zone that contain
     the pickup location.
     '''
-    import csv
-    import pyproj
-    import shapely.geometry as geom
     
     # Create an R-tree index
     proj = pyproj.Proj(init="epsg:2263", preserve_units=True)    
