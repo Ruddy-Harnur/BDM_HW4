@@ -9,7 +9,7 @@ import geopandas as gpd
 
 
 # This is to load the shape file
-shapefile = sys.argv[1]
+shapefile = 'neighborhoods.geojson'
 
 # And project it into EPSG:2263 (NAD 83 NY State) plane
 neighborhoods = gpd.read_file(shapefile).to_crs(fiona.crs.from_epsg(2263))
@@ -97,7 +97,7 @@ def processTrips(pid, records):
 
 if __name__=='__main__':
     sc = SparkContext()
-    sc.textFile(sys.argv[2]) \
+    sc.textFile(sys.argv[1]) \
         .mapPartitionsWithIndex(processTrips) \
         .reduceByKey(lambda x,y: x+y) \
         .filter(lambda x : x[0][0] != None) \
@@ -108,4 +108,4 @@ if __name__=='__main__':
         .map(lambda x: (x[0],x[1][0:3])) \
         .sortByKey() \
         .mapPartitionsWithIndex(toCSV) \
-        .saveAsTextFile(sys.argv[3])
+        .saveAsTextFile(sys.argv[2])
