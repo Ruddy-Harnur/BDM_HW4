@@ -95,9 +95,11 @@ if __name__=='__main__':
     sc.textFile(sys.argv[1]) \
         .mapPartitionsWithIndex(processTrips) \
         .reduceByKey(lambda x,y: x+y) \
+        .filter(lambda x : x[0][0] != None) \
+        .filter(lambda x: x[0][1] != None) \
         .map(lambda x: (x[0][0], ((x[0][1]), x[1]))) \
-        .sortBy(lambda x: x[1][1], ascending=False) \
         .groupByKey().mapValues(list) \
+        .sortBy(lambda x: x[1][1], ascending=False) \
         .map(lambda x: (x[0],x[1][0:3])) \
         .sortByKey() \
         .saveAsTextFile(sys.argv[2])
