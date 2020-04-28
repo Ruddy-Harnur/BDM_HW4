@@ -82,8 +82,8 @@ def processTrips(pid, records):
     
     for row in reader:
            
-        pickup_point = geom.Point(proj(float(row[5]), float(row[6])))
-        dropoff_point = geom.Point(proj(float(row[9]), float(row[10])))
+        pickup_point = geom.Point(proj(float(row[6]), float(row[7])))
+        dropoff_point = geom.Point(proj(float(row[10]), float(row[11])))
 
         # Look up a matching zone, and update the count accordly if
         # such a match is found
