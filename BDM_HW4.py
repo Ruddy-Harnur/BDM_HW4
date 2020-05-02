@@ -98,8 +98,6 @@ if __name__=='__main__':
         .filter(lambda x : x[0][0] != None) \
         .filter(lambda x: x[0][1] != None) \
         .map(lambda x: (x[0][0], ((x[0][1]), x[1]))) \
-        .sortBy(lambda x: x[1][1], ascending=False) \
-        .groupByKey().mapValues(list) \
-        .map(lambda x: (x[0],x[1][0:3])) \
+        .groupByKey().mapValues(lambda x: sorted(x, key=lambda y: y[1], reverse=True)[:3]) \
         .sortByKey() \
         .saveAsTextFile(sys.argv[2])
